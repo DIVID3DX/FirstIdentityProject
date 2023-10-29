@@ -9,16 +9,24 @@ namespace ConsoleApp1
 {
     internal class Program
     {
+        static DB db = new DB();
+        static LoginService loginService = new LoginService(db);
+        static RegisterService registerService = new RegisterService(db);
+
+
         public static void Main(string[] args)
         {
-            LoginService loginService = new LoginService();
-            RegisterService registerService = new RegisterService();
-            
+          MainMenu();
+
+        }
+
+        public static void MainMenu() 
+        {
             Console.WriteLine("Please log in(1) or register(2):");
 
             int input = int.Parse(Console.ReadLine());
 
-            if(input == 1)
+            if (input == 1)
             {
                 Console.WriteLine("Please enter your username and password:");
 
@@ -26,11 +34,7 @@ namespace ConsoleApp1
 
                 string pass = Console.ReadLine();
 
-                Console.WriteLine("Please confirm your password:");
-
-                string passConf = Console.ReadLine();
-
-               loginService.Login(userName, pass, passConf);
+                loginService.Login(userName, pass);
             }
             else
             {
@@ -40,11 +44,20 @@ namespace ConsoleApp1
 
                 string pass = Console.ReadLine();
 
-                registerService.Register(userName, pass);
+                bool hasRegistered = registerService.Register(userName, pass);
 
-                Console.WriteLine("You have been successfully registered.");
+                if (hasRegistered) 
+                {
+                    Console.WriteLine("You have been successfully registered.");
+
+                    MainMenu();
+
+                }
+
+
             }
 
         }
+
     }
 }

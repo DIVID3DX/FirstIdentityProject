@@ -2,34 +2,31 @@
 {
     public class LoginService
     {
-        public void Login(string userName, string pass, string confPass) 
+        private DB database;
+
+        public LoginService(DB db)
         {
-           
-            int retryCount = 0;
+            database = db;
+        }
 
-            while (confPass != pass && retryCount < 3)
+        public void Login(string userName, string pass) 
+        {
+           User dbEntity = database.Users.FirstOrDefault(x => x.UserName == userName);
+
+            if (dbEntity == null) 
             {
-                Console.WriteLine("The passwords do not match! Try again.");
-
-                retryCount++;
-
-                pass = Console.ReadLine();
-
-                confPass = Console.ReadLine();
-
+                Console.WriteLine("Username not found");
+                return;
             }
-
-            if (retryCount < 3)
+            else if (dbEntity.Password != pass) 
             {
-                Console.WriteLine($"Hello {userName}!");
+                Console.WriteLine("Incorrect password");
+                return;
             }
-            else
+            else 
             {
-                Console.WriteLine("Entry failed!");
+                Console.WriteLine($"Welcome, {dbEntity.UserName}");
             }
-
-
-
 
         }
 

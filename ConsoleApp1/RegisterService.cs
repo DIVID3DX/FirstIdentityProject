@@ -8,12 +8,20 @@ namespace ConsoleApp1
 {
     internal class RegisterService
     {
-        private DB databaZEN = new DB();
-        public void Register(string userName, string pass) 
+        private DB database;
+
+        public RegisterService(DB db)
+        {
+            database = db;
+        }
+
+        public bool Register(string userName, string pass) 
         {
             User user = new User(userName, pass);
 
-            databaZEN.Users.Add(user);
+            database.Users.Add(user);
+
+            return true;
         }
 
     }

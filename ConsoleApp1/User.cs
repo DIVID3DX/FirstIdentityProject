@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    internal class User
+    public class User
     {
         public string UserName { get; set; }
 
